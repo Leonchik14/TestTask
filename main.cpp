@@ -1,8 +1,8 @@
 #include <iostream>
 #include "Curve.h"
-#include "Circle.h"
-#include "Ellipse.h"
-#include "Helix.h"
+#include "Circle.cpp"
+#include "Ellipse.cpp"
+#include "Helix.cpp"
 #include "random"
 #include "algorithm"
 
@@ -30,7 +30,7 @@ std::vector<Curve*> generateFiguresVector(int count, double lowerBound, double u
 void printInfoAboutFigures(std::vector<Curve*>& figures, double t) {
     for (int i = 0; i < figures.size(); ++i) {
         std::pair <std::vector<double>, std::vector<double>> info = figures[i]->getPointAndDerivative(t);
-        std::cout << "Figure " << i + 1;
+        std::cout << "Figure " << i + 1 << '\n';
         std::cout << "3D Point: " << info.first[0] << " " << info.first[1] << " " << info.first[2] << '\n';
         std::cout << "First derivative: " << info.second[0] << " " << info.second[1] << " " << info.second[2] << '\n';
         std::cout << '\n';
@@ -60,11 +60,22 @@ double getRadiiSum(std::vector<Circle*>& circles) {
     return sum;
 }
 
+void printCirclesRadios(std::vector<Circle*>& circles) {
+    for (auto *circle : circles) {
+        std::cout << circle->getRadius() << " ";
+    }
+    std::cout << '\n';
+}
+
 int main() {
     std::vector<Curve*> figures = generateFiguresVector(10, 1, 10);
     printInfoAboutFigures(figures, M_PI/4);
     std::vector<Circle*> circles = getCirclesFromFigures(figures);
+    std::cout << "Circles before sorting:\n";
+    printCirclesRadios(circles);
     std::sort(circles.begin(), circles.end(), circleComparator);
-    std::cout << getRadiiSum(circles);
+    std::cout << "Circles after sorting:\n";
+    printCirclesRadios(circles);
+    std::cout << "Sum of all radios: " << getRadiiSum(circles);
 
 }
