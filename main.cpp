@@ -54,6 +54,7 @@ bool circleComparator(const std::shared_ptr<Circle>& lhs, const std::shared_ptr<
     return lhs->getRadius() < rhs->getRadius();
 }
 
+// Parallel computations of radios sum
 double getRadiiSum(std::vector<std::shared_ptr<Circle>>& circles) {
     double radiiSum = 0;
 
@@ -72,11 +73,15 @@ void printCirclesRadios(std::vector<std::shared_ptr<Circle>>& circles) {
 }
 
 int main() {
-    std::vector<std::shared_ptr<Curve>> figures = generateFiguresVector(10000, 1, 10);
+    // Generating figures with function. First parameter - figures count, second - lower bound for generating values,
+    // third - upper bound
+    std::vector<std::shared_ptr<Curve>> figures = generateFiguresVector(20, 1, 20);
     printInfoAboutFigures(figures, M_PI/4);
+    // Picking circles with a function.
     std::vector<std::shared_ptr<Circle>> circles = getCirclesFromFigures(figures);
     std::cout << "Circles before sorting:\n";
     printCirclesRadios(circles);
+    // Sorting using comparator
     std::sort(circles.begin(), circles.end(), circleComparator);
     std::cout << "Circles after sorting:\n";
     printCirclesRadios(circles);
